@@ -20,7 +20,13 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String fullName;
+    private String name;
+
+    private String surname;
+
+    private String email;
+
+    private String password;
 
     private int exam;
 }

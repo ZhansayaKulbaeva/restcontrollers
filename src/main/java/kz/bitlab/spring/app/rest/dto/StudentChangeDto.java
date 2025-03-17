@@ -1,9 +1,9 @@
 package kz.bitlab.spring.app.rest.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,9 +19,10 @@ public class StudentChangeDto {
     @NotEmpty
     private String surname;
 
+    @Email(message = "Email bolu kerek")
     @NotNull(message = "email must be not null")
     private String email;
 
-    @Pattern(regexp = "", message = "")
-    private int exam;
+//    @Pattern(regexp = "qwertasdf", message = "")
+    private int examPoint;
 }

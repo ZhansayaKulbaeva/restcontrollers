@@ -7,7 +7,11 @@ import kz.bitlab.spring.app.rest.dto.StudentDto;
 import kz.bitlab.spring.app.rest.mapper.StudentMapper;
 import kz.bitlab.spring.app.rest.model.Student;
 import kz.bitlab.spring.app.rest.repository.StudentRepository;
+import kz.bitlab.spring.app.rest.repository.StudentSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,9 +24,15 @@ public class StudentService {
     private final StudentRepository repository;
     private final StudentMapper mapper;
 
-    public List<StudentDto> getStudents() {
-        List<Student> students = repository.findAll();
-        return mapper.toDtoList(students);
+    public Page<StudentDto> getStudents(Pageable pageable) {
+        Page<Student> studentPage = repository.findAll(pageable); // 9
+        return studentPage.map(stud -> mapper.toDto(stud));
+    }
+
+    public Page<StudentDto> searchStudents(String name, Pageable pageable) {
+        Specification<Student> spec = StudentSpecification.searchStudents(name);
+        Page<Student> studentPage = repository.findAll(spec, pageable); // 9
+        return studentPage.map(stud -> mapper.toDto(stud));
     }
 
     public StudentDetailDto getStudent(Long id) {
